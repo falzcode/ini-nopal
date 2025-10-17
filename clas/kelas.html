@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas B Bisdig 🎓</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* =======================================
+           Gaya Dasar & Tema (Neumorphism / Dark Mode Elegan)
+           ======================================= */
+        :root {
+            --color-main: #1f2327; /* Charcoal Darker */
+            --color-primary: #007bff; /* Biru Aksen */
+            --color-secondary-accent: #ff00d0; /* Ungu Aksen */
+            --color-text: #e0e0e0;
+            --color-shadow-dark: #ff00bb;
+            --color-shadow-light: #2a3036;
+            --font-main: 'Poppins', sans-serif;
+            --transition-speed: 0.3s;
+            --navbar-height: 65px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-main);
+            color: var(--color-text);
+            transition: background-color var(--transition-speed);
+        }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+
+        /* NEUMORPHIC STYLES */
+        .neumorphic-card {
+            background: var(--color-main);
+            border-radius: 12px;
+            box-shadow: 8px 8px 15px var(--color-shadow-dark), -8px -8px 15px var(--color-shadow-light);
+            padding: 30px;
+            transition: all var(--transition-speed);
+        }
+        
+        /* SHADOW FUTURISTIK (Login, Pesan Anonim, Galeri, Member Card) */
+        .futuristic-shadow-border {
+            border-radius: 15px;
+            box-shadow: 
+                0 0 10px var(--color-primary), /* Biru */
+                0 0 25px var(--color-secondary-accent); /* Ungu */
+            border: 1px solid rgba(0, 123, 255, 0.4);
+            background-color: rgba(31, 35, 39, 0.95); /* Sedikit transparan agar background terlihat */
+        }
+
+        .neumorphic-input, .neumorphic-btn {
+            border: none;
+            outline: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: var(--color-main);
+            box-shadow: inset 5px 5px 10px var(--color-shadow-dark), inset -5px -5px 10px var(--color-shadow-light);
+            color: var(--color-text);
+            transition: all var(--transition-speed);
+        }
+
+        .neumorphic-btn {
+            box-shadow: 5px 5px 10px var(--color-shadow-dark), -5px -5px 10px var(--color-shadow-light);
+            cursor: pointer;
+        }
+        
+        .neumorphic-btn:hover {
+            box-shadow: inset 2px 2px 5px var(--color-shadow-dark), inset -2px -2px 5px var(--color-shadow-light);
+        }
+
+        /* =======================================
+           Halaman Login/Daftar
+           ======================================= */
+        #login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://picsum.photos/1920/1080?random=11') no-repeat center center/cover; 
+            position: relative;
+        }
+        
+        #login-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Overlay gelap */
+            backdrop-filter: blur(4px);
+            z-index: 1;
+        }
+
+        .auth-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 380px;
+            padding: 40px;
+            /* Terapkan Shadow Futuristik */
+            @extend .futuristic-shadow-border; /* Menggunakan extend */
+        }
+
+        .btn-auth {
+            background-color: var(--color-primary);
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-auth:hover {
+            background-color: #0056b3;
+        }
+
+        .switch-auth a {
+            color: var(--color-primary); /* Warna Biru untuk Daftar Akun */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-speed);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--color-text);
+        }
+        
+        /* =======================================
+           Halaman Utama (Main Content & Navbar)
+           ======================================= */
+        
+        /* Navbar Horizontal (Desktop) */
+        #main-header {
+            width: 100%;
+            height: var(--navbar-height);
+            background-color: var(--color-main);
+            box-shadow: 0 4px 15px var(--color-shadow-dark);
+            position: fixed; 
+            top: 0;
+            left: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            box-sizing: border-box;
+        }
+
+        #logo h1 {
+            font-size: 1.5em;
+            color: var(--color-primary);
+            margin: 0;
+        }
+
+        #nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-item {
+            padding: 10px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all var(--transition-speed);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-item i {
+            margin-right: 5px;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            color: var(--color-primary);
+            box-shadow: inset 2px 2px 5px var(--color-shadow-dark), inset -2px -2px 5px var(--color-shadow-light);
+        }
+        
+        #logout-button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #dc3545;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-weight: 500;
+        }
+        
+        #logout-button:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        /* Konten Utama */
+        #main-content {
+            padding: var(--navbar-height) 5% 20px 5%; 
+            min-height: calc(100vh - var(--navbar-height));
+            box-sizing: border-box;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Konten Seksional */
+        .content-section {
+            padding: 50px 0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Struktur Kelas */
+        #structure-content h2, #gallery-content h2, #anonim-content h2 {
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .class-structure {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            justify-content: center; /* Pusat di desktop */
+        }
+
+        .member-card {
+            text-align: center;
+            background: var(--color-main);
+            padding: 20px;
+            border-radius: 12px;
+            /* Terapkan Shadow Futuristik */
+            box-shadow: 
+                0 0 5px var(--color-primary), 
+                0 0 15px var(--color-secondary-accent);
+            border: 1px solid rgba(0, 123, 255, 0.2); /* Border lebih halus */
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 0 15px var(--color-primary), 
+                0 0 30px var(--color-secondary-accent); /* Shadow lebih kuat saat hover */
+        }
+
+        .member-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid var(--color-primary);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Galeri Foto - DIPERBAIKI */
+        #gallery-content .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ukuran item lebih besar */
+            gap: 20px;
+            justify-content: center; /* PENTING: Untuk memusatkan grid */
+            max-width: 1200px; /* Batasi lebar agar tetap rapi */
+            margin: 0 auto; /* Pusat grid di halaman */
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            /* Terapkan Shadow Futuristik pada Sampul Galeri */
+            box-shadow: 
+                0 0 8px var(--color-primary), 
+                0 0 20px var(--color-secondary-accent);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            background-color: var(--color-main); /* Background untuk sampul */
+            padding: 8px; /* Padding di dalam sampul */
+            display: flex; /* Untuk memusatkan gambar di dalamnya */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 
+                0 0 15px var(--color-primary), 
+                0 0 35px var(--color-secondary-accent); /* Shadow lebih kuat saat hover */
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px; /* Radius dalam sampul */
+            transition: transform 0.5s;
+        }
+        
+        /* Pesan Anonim (Diperbarui dengan Shadow Futuristik) */
+        #anonim-box {
+            max-width: 400px;
+            margin: 0 auto;
+            /* Terapkan Shadow Futuristik */
+            @extend .futuristic-shadow-border;
+            padding: 30px;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #31363b; 
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px var(--color-shadow-dark);
+            position: relative;
+        }
+        
+        .delete-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 15px;
+            transition: color var(--transition-speed);
+        }
+        
+        /* Footer & Sosial Media */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--color-shadow-dark);
+            margin-top: 50px;
+        }
+        
+        .social-icons a {
+            color: var(--color-text);
+            margin: 0 15px;
+            font-size: 1.8em;
+            transition: color var(--transition-speed);
+        }
+        
+        .social-icons a:hover {
+            color: var(--color-primary);
+        }
+
+
+        /* =======================================
+           Media Query untuk Handphone (Responsif)
+           ======================================= */
+        @media (max-width: 768px) {
+            #main-header {
+                position: static; 
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            
+            #logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            #nav-menu {
+                width: 100%;
+                flex-direction: column;
+                display: none; 
+            }
+
+            #main-header.expanded #nav-menu {
+                display: flex; 
+            }
+            
+            .nav-item {
+                margin: 5px 0;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            #logout-button {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            #menu-toggle {
+                display: block;
+                color: var(--color-primary);
+                font-size: 1.5em;
+                margin-bottom: 10px;
+                cursor: pointer;
+                text-align: right;
+                width: 100%;
+            }
+
+            #main-content {
+                padding: 20px; 
+            }
+            
+            .class-structure {
+                grid-template-columns: 1fr; 
+            }
+            
+            #message-form {
+                flex-direction: column;
+            }
+
+            /* Galeri di Mobile */
+            #gallery-content .gallery-grid {
+                grid-template-columns: 1fr; /* Satu kolom di mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="auth-container futuristic-shadow-border" id="auth-box">
+            <h2 id="auth-title">LOGIN</h2>
+            
+            <p class="error-message hidden" id="error-pass">Password yang anda masukkan salah.</p>
+            <p class="error-message hidden" id="error-acc">Email tidak terdaftar atau tidak sesuai.</p>
+
+            <form id="auth-form">
+                <div class="form-group">
+                    <input type="email" id="email" class="neumorphic-input" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="neumorphic-input" placeholder="Password" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye" id="toggle-icon"></i>
+                    </span>
+                </div>
+                <button type="submit" class="neumorphic-btn btn-auth" id="auth-button">LOGIN</button>
+            </form>
+
+            <p class="switch-auth">
+                Belum punya akun? <a href="#" id="switch-to-register">Daftar Akun</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="main-layout" class="hidden">
+        
+        <header id="main-header">
+            <div id="logo">
+                <h1>Class B Bisnis Digital 🎓</h1>
+            </div>
+            
+             <i class="fas fa-bars" id="menu-toggle" onclick="toggleMobileMenu()"></i>
+
+            <nav>
+                <ul id="nav-menu">
+                    <li class="nav-item active" data-target="profile-content">
+                        <i class="fas fa-user-circle"></i>PROFILE
+                    </li>
+                    <li class="nav-item" data-target="gallery-content">
+                        <i class="fas fa-images"></i>GALLERY
+                    </li>
+                    <li class="nav-item" data-target="structure-content">
+                        <i class="fas fa-users"></i>STRUKTUR
+                    </li>
+                    <li class="nav-item" data-target="anonim-content">
+                        <i class="fas fa-comment-dots"></i>MESSAGE
+                    </li>
+                    <li id="logout-button-mobile" class="nav-item" onclick="logout()" style="color: #dc3545;">
+                         <i class="fas fa-sign-out-alt"></i> LOGOUT
+                    </li>
+                </ul>
+            </nav>
+            
+            <div id="logout-button" onclick="logout()" style="display: none;">
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
+            </div>
+        </header>
+
+        <div id="main-content">
+
+            <section id="profile-content" class="content-section active">
+                <h2 style="text-align: center; color: var(--color-text); margin-bottom: 20px;">Welcome to Class B Bisnis Digtial!</h2>
+                <div class="neumorphic-card" style="margin-top: 40px; padding: 40px;">
+                    <h3>Informasi Terbaru</h3>
+                    <p></p>
+                    <p>MUBES dimulai tanggal 25 Oktober 2025 dari jam 08:00-22:00.</p>
+                    <p>UTS dimulai tanggal 27 Oktober 2025.</p>
+                </div>
+            </section>
+
+            <section id="gallery-content" class="content-section">
+                <h2>GALERI KELAS</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="https://i.ibb.co.com/bj3kFGrG/momen.jpg"  alt="Foto Kelas 1"></div>
+                    <div class="gallery-item"><img src="https://i.ibb.co.com/SwPPwtt1/hhh.jpg"  alt="Foto Kelas 2"></div>
+                    <div class="gallery-item"><img src="https://i.ibb.co.com/Q7F4YPkH/kls.jpg"  alt="Foto Kelas 3"></div>
+                </div>
+            </section>
+
+            <section id="structure-content" class="content-section">
+                <h2>STRUKTUR KELAS</h2>
+                <div class="class-structure">
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=11" alt="Wali Dosen">
+                        <h4>Bei Harira Irawan, S.Kom, M.Kom.</h4>
+                        <p>Wali Dosen</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/Kvl6x3X.md.jpg" alt="Komting">
+                        <h4>Naufal Dzaky Firmanda</h4>
+                        <p>Komting</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvlLHVR.md.jpg" alt="Wakil Komting">
+                        <h4>Panca Setiya Laksono</h4>
+                        <p>Wakil Komting</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvcMRt4.md.jpg" alt="Bendahara 1">
+                        <h4>Nurul Rigendari</h4>
+                        <p>Bendahara 1</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvchKJt.md.jpg" alt="Bendahara 2">
+                        <h4>Siti Nur Afifah</h4>
+                        <p>Bendahara 2</p>
+                    </div>
+                    
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=20" alt="Anggota 1">
+                        <h4>Anugrah Banu Alfatan</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=21" alt="Anggota 2">
+                        <h4>Feri Teguh Arifanto </h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                     <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=22" alt="Anggota 3">
+                        <h4>Singgih Prawiro</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=23" alt="Anggota 4">
+                        <h4>Moh. Rafi Ramadhan</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=24" alt="Anggota 5">
+                        <h4>Anisa Isti Komah</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvliHmJ.md.jpg" alt="Anggota 6">
+                        <h4>Nailah Widyadhana</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvlHnS4.md.jpg" alt="Anggota 7">
+                        <h4>Viona Maria Aprilianti</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=27" alt="Anggota 8">
+                        <h4>Arman Suryantara</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=28" alt="Anggota 9">
+                        <h4>Roby Adhitya Sebayu</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=29" alt="Anggota 10">
+                        <h4>Yovanya Cleo</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/KvcttMx.md.jpg" alt="Anggota 11">
+                        <h4>Marsella Lusio</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/Kvldfaf.md.jpg" alt="Anggota 12">
+                        <h4>Yusi Dwi Astuti</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/Kvl3Tdb.md.jpg" alt="Anggota 13">
+                        <h4>Maida Elma</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://iili.io/Kvcboqx.md.jpg" alt="Anggota 14">
+                        <h4>Putri Melati</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                        <img src="https://picsum.photos/100/100?random=34" alt="Anggota 15">
+                        <h4>Fitri Kumalasari</h4>
+                        <p>Anggota Kelas</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="anonim-content" class="content-section">
+                <h2>PESAN RANDOM</h2>
+                <div id="anonim-box" class="neumorphic-card futuristic-shadow-border">
+                    <form id="message-form" onsubmit="submitAnonymousMessage(event)">
+                        <input type="text" id="message-input" class="neumorphic-input" placeholder="Tulis pesan random di sini..." required>
+                        <button type="submit" class="neumorphic-btn btn-auth" style="width: 100px;">Kirim</button>
+                    </form>
+                    
+                    <h4 style="border-bottom: 1px solid #333; padding-bottom: 10px;">Daftar Pesan</h4>
+
+                    <div id="chat-messages">
+                        </div>
+                    <p class="message-info" style="text-align: center;">Thank you, semoga anda sukses.</p>
+                </div>
+            </section>
+            
+            <hr style="border-color: var(--color-shadow-dark);">
+
+            <footer>
+                <div class="social-icons">
+                    <a href="https://youtube.com/@classbbisnisdigital" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/bisdigb.24" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p style="margin-top: 15px;">&copy; 2025 Web Kelas B Bisnis Digital.</p>
+            </footer>
+        </div>
+    </div>
+
+
+    <script>
+        // =======================================
+        // DATA SIMULASI (Menggunakan Local Storage)
+        // =======================================
+
+        const STORAGE_KEY_USERS = 'eliteClassUsers';
+        const STORAGE_KEY_MESSAGES = 'eliteClassMessages';
+        let currentUserId = localStorage.getItem('currentUserId') ? parseInt(localStorage.getItem('currentUserId')) : null;
+        let currentUserEmail = localStorage.getItem('currentUserEmail') || null;
+        let isLoginPage = true; 
+
+        function getLocalStorageData(key, defaultValue) {
+            const data = localStorage.getItem(key);
+            if (data) {
+                try {
+                    return JSON.parse(data);
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+            return defaultValue;
+        }
+
+        function setLocalStorageData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        // Akun default (hanya jika storage kosong)
+        let registeredAccounts = getLocalStorageData(STORAGE_KEY_USERS, [{ email: "demo@kelas.com", password: "123", id: 1 }]);
+        let messages = getLocalStorageData(STORAGE_KEY_MESSAGES, [{id: 1, userId: 1, text: "Selamat datang di fitur pesan anonim! (Pesan Demo)", timestamp: new Date().toLocaleString()}]);
+
+        setLocalStorageData(STORAGE_KEY_USERS, registeredAccounts);
+        setLocalStorageData(STORAGE_KEY_MESSAGES, messages);
+
+        // =======================================
+        // Fungsionalitas Navigasi
+        // =======================================
+
+        function navigateTo(targetId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            document.getElementById(targetId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Pastikan item navigasi di desktop dan mobile mendapatkan kelas active
+            const targetNavItemDesktop = document.querySelector(`#nav-menu .nav-item[data-target="${targetId}"]`);
+            if (targetNavItemDesktop) {
+                targetNavItemDesktop.classList.add('active');
+            }
+            const targetNavItemMobile = document.querySelector(`#logout-button-mobile.nav-item[data-target="${targetId}"]`); // Jika ada nav item mobile
+            if (targetNavItemMobile) {
+                targetNavItemMobile.classList.add('active');
+            }
+            
+            // Tutup menu mobile setelah navigasi
+            if (window.innerWidth <= 768) {
+                document.getElementById('main-header').classList.remove('expanded');
+            }
+        }
+        
+        // Event listener untuk menu navigasi
+        document.querySelectorAll('.nav-item').forEach(item => {
+            if (item.getAttribute('data-target')) {
+                item.addEventListener('click', function() {
+                    navigateTo(this.getAttribute('data-target'));
+                });
+            }
+        });
+        
+        // Toggle menu di mobile
+        function toggleMobileMenu() {
+            const header = document.getElementById('main-header');
+            header.classList.toggle('expanded');
+        }
+
+
+        // =======================================
+        // Fungsionalitas Login/Daftar
+        // =======================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tampilkan tombol logout desktop jika layar besar
+            if (window.innerWidth > 768) {
+                document.getElementById('logout-button').style.display = 'block';
+                document.getElementById('logout-button-mobile').style.display = 'none';
+            } else {
+                 document.getElementById('logout-button').style.display = 'none';
+                 document.getElementById('logout-button-mobile').style.display = 'flex'; /* Flex agar ikon dan teks sejajar */
+            }
+
+            if (currentUserId !== null) {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('main-layout').classList.remove('hidden');
+                showMainContent(currentUserEmail);
+                renderMessages(); 
+            } else {
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('main-layout').classList.add('hidden');
+            }
+             navigateTo('profile-content');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'switch-to-register') {
+                e.preventDefault();
+                isLoginPage = !isLoginPage;
+                const authTitle = document.getElementById('auth-title');
+                const authButton = document.getElementById('auth-button');
+                const switchText = e.target.parentNode;
+                
+                if (!isLoginPage) {
+                    authTitle.textContent = "DAFTAR AKUN";
+                    authButton.textContent = "DAFTAR";
+                    switchText.innerHTML = 'Sudah punya akun? <a href="#" id="switch-to-register" style="color: var(--color-primary);">Login</a>';
+                } else {
+                    authTitle.textContent = "LOGIN";
+                    authButton.textContent = "LOGIN";
+                    switchText.innerHTML = 'Belum punya akun? <a href="#" id="switch-to-register" style="color: var(--color-primary);">Daftar Akun</a>';
+                }
+                document.getElementById('auth-form').reset();
+                hideErrors();
+            }
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            hideErrors();
+            
+            registeredAccounts = getLocalStorageData(STORAGE_KEY_USERS, []);
+
+            if (isLoginPage) {
+                // --- PROSES LOGIN ---
+                const account = registeredAccounts.find(acc => acc.email === email);
+
+                if (!account) {
+                    document.getElementById('error-acc').classList.remove('hidden');
+                    return;
+                }
+                if (account.password !== password) {
+                    document.getElementById('error-pass').classList.remove('hidden');
+                    return;
+                }
+                
+                // Login Sukses
+                currentUserId = account.id;
+                currentUserEmail = account.email;
+                localStorage.setItem('currentUserId', currentUserId);
+                localStorage.setItem('currentUserEmail', currentUserEmail);
+
+                showMainContent(currentUserEmail);
+                renderMessages();
+
+            } else {
+                // --- PROSES PENDAFTARAN ---
+                if (registeredAccounts.find(acc => acc.email === email)) {
+                    document.getElementById('error-acc').textContent = "Email sudah terdaftar. Silakan gunakan email lain.";
+                    document.getElementById('error-acc').classList.remove('hidden');
+                    return;
+                }
+                
+                // Pendaftaran Sukses
+                const newId = registeredAccounts.length > 0 ? Math.max(...registeredAccounts.map(u => u.id)) + 1 : 1;
+                registeredAccounts.push({ email: email, password: password, id: newId });
+                setLocalStorageData(STORAGE_KEY_USERS, registeredAccounts); 
+                
+                alert("Pendaftaran Berhasil! Silakan Login.");
+                
+                document.getElementById('switch-to-register').click(); 
+            }
+        });
+
+        function showMainContent(email) {
+             document.getElementById('login-page').style.opacity = '0';
+             document.getElementById('user-display-email').textContent = email;
+             
+             setTimeout(() => {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('main-layout').classList.remove('hidden');
+                document.getElementById('main-layout').style.opacity = '1';
+                navigateTo('profile-content'); 
+            }, 500);
+        }
+
+        function hideErrors() {
+            document.getElementById('error-pass').classList.add('hidden');
+            document.getElementById('error-acc').classList.add('hidden');
+             document.getElementById('error-acc').textContent = "Email tidak terdaftar atau tidak sesuai.";
+        }
+        
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        function logout() {
+            if (!confirm("Apakah Anda yakin ingin Logout?")) return;
+
+            currentUserId = null;
+            currentUserEmail = null;
+            localStorage.removeItem('currentUserId');
+            localStorage.removeItem('currentUserEmail');
+            
+            document.getElementById('main-layout').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('main-layout').classList.add('hidden');
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('login-page').style.opacity = '1';
+                document.getElementById('auth-form').reset();
+                isLoginPage = true;
+                document.getElementById('auth-title').textContent = "LOGIN";
+                document.getElementById('auth-button').textContent = "LOGIN";
+            }, 500);
+        }
+
+
+        // =======================================
+        // Fungsionalitas Pesan Anonim (Simulasi)
+        // =======================================
+
+        function renderMessages() {
+            messages = getLocalStorageData(STORAGE_KEY_MESSAGES, []); 
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML = '';
+            
+            const sortedMessages = [...messages].sort((a, b) => b.id - a.id); 
+
+            sortedMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'chat-message';
+                messageDiv.setAttribute('data-id', msg.id);
+                
+                let deleteButton = '';
+                if (currentUserId !== null && msg.userId === currentUserId) {
+                    deleteButton = `<span class="delete-btn" onclick="deleteMessage('${msg.id}')"><i class="fas fa-trash"></i> Hapus</span>`;
+                }
+
+                messageDiv.innerHTML = `
+                    <p class="chat-message-text">"${msg.text}"</p>
+                    <div class="message-info">
+                        Dari: Anonim 
+                        ${deleteButton}
+                    </div>
+                `;
+                chatBox.appendChild(messageDiv);
+            });
+        }
+        
+        function submitAnonymousMessage(e) {
+            e.preventDefault();
+            if (currentUserId === null) {
+                alert("Anda harus login untuk mengirim pesan anonim.");
+                return;
+            }
+            
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const newId = messages.length > 0 ? Math.max(...messages.map(m => m.id)) + 1 : 1;
+            
+            const newMessage = {
+                id: newId,
+                userId: currentUserId, 
+                text: text,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            messages.push(newMessage);
+            setLocalStorageData(STORAGE_KEY_MESSAGES, messages);
+            
+            renderMessages();
+            input.value = '';
+            alert("Pesan anonim berhasil dikirim!");
+        }
+        
+        function deleteMessage(messageId) {
+            if (currentUserId === null) {
+                alert("Anda harus login untuk melakukan tindakan ini.");
+                return;
+            }
+            
+            if (!confirm("Apakah Anda yakin ingin menghapus pesan ini?")) return;
+
+            const idToDelete = parseInt(messageId); 
+            const index = messages.findIndex(msg => msg.id === idToDelete);
+
+            if (index !== -1 && messages[index].userId === currentUserId) {
+                 messages.splice(index, 1);
+                 setLocalStorageData(STORAGE_KEY_MESSAGES, messages);
+                 alert(`Pesan berhasil dihapus!`);
+                 renderMessages();
+            } else {
+                alert("Gagal menghapus pesan. Anda mungkin tidak memiliki hak akses untuk pesan ini.");
+            }
+        }
+    </script>
+
+</body>
+</html>
